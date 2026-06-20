@@ -1,5 +1,7 @@
+using Loc.Data;
 using Loc.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 
 namespace Loc.Controllers
@@ -7,15 +9,41 @@ namespace Loc.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly AppDbContext _db;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, AppDbContext db)
         {
             _logger = logger;
+            _db = db;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var items = await _db.ContactMessages
+                .OrderByDescending(x => x.Id)
+                .Take(20)
+                .ToListAsync();
+
+            return View(items);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Index(ContactMessage model)
+        {
+            if (ModelState.IsValid)
+            {
+                model.CreatedAt = DateTime.Now;
+                _db.ContactMessages.Add(model);
+                await _db.SaveChangesAsync();
+            }
+
+            var items = await _db.ContactMessages
+                .OrderByDescending(x => x.Id)
+                .Take(20)
+                .ToListAsync();
+
+            return View(items);
         }
 
         public IActionResult Privacy()
@@ -30,3 +58,4 @@ namespace Loc.Controllers
         }
     }
 }
+
