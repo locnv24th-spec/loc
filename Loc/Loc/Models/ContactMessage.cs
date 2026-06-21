@@ -17,8 +17,7 @@ namespace Loc.Models
         [Required]
         public string Message { get; set; } = string.Empty;
 
-        // store as local time string for portability (SQLite)
-        public DateTime CreatedAt { get; set; } = DateTime.Now;
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
     }
 }
 

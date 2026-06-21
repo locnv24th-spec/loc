@@ -17,8 +17,7 @@ namespace Loc.Data
             {
                 entity.HasKey(e => e.Id);
 
-                entity.Property(e => e.CreatedAt)
-                      .HasColumnType("TEXT");
+
 
                 entity.Property(e => e.FullName)
                       .HasMaxLength(200)
