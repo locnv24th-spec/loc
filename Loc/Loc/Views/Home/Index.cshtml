@@ -14,23 +14,25 @@
             <form asp-action="Index" method="post">
                 @Html.AntiForgeryToken()
 
-                <div class="mb-3">
-                    <label class="form-label" for="FullName">Full name</label>
-                    <input class="form-control" name="FullName" id="FullName" required maxlength="200" />
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
+                <div class="mb-3">
+                    <label asp-for="FullName" class="form-label"></label>
+                    <input asp-for="FullName" class="form-control" maxlength="200" />
+                    <span asp-validation-for="FullName" class="text-danger"></span>
                 </div>
 
                 <div class="mb-3">
-                    <label class="form-label" for="Email">Email</label>
-                    <input class="form-control" name="Email" id="Email" type="email" required maxlength="200" />
+                    <label asp-for="Email" class="form-label"></label>
+                    <input asp-for="Email" class="form-control" maxlength="200" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
-
 
                 <div class="mb-3">
-                    <label class="form-label" for="Message">Message</label>
-                    <textarea class="form-control" name="Message" id="Message" required maxlength="200"></textarea>
+                    <label asp-for="Message" class="form-label"></label>
+                    <textarea asp-for="Message" class="form-control" maxlength="200"></textarea>
+                    <span asp-validation-for="Message" class="text-danger"></span>
                 </div>
-
 
                 <button class="btn btn-primary" type="submit">Save</button>
             </form>
